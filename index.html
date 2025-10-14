@@ -3,9 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Puissance 4</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    aaa
+    <div class="container">
+        <h1>Puissance 4</h1>
+        
+        <div class="navigation">
+            <a href="/" class="back-button">⬅ Retour</a>
+        </div>
+
+        {{template "reset" .}}
+
+        <div class="status">
+            {{if .IsGameOver}}
+                {{if .Winner}}
+                    {{if eq .Winner 1}}
+                        <p class="winner">{{.Player1Name}} a gagné ! 🎉</p>
+                    {{else}}
+                        <p class="winner">{{.Player2Name}} a gagné ! 🎉</p>
+                    {{end}}
+                {{else}}
+                    <p class="draw">Match nul ! 🤝</p>
+                {{end}}
+            {{else}}
+                {{if eq .CurrentPlayer 1}}
+                    <p>Au tour de {{.Player1Name}} 🔴</p>
+                {{else}}
+                    <p>Au tour de {{.Player2Name}} 🟡</p>
+                {{end}}
+            {{end}}
+        </div>
+
+        <div class="board">
+            {{if not .IsGameOver}}
+            <div class="controls">
+                {{$cols := .Cols}}
+                {{range $col := iterate $cols}}
+                    <form action="/move" method="POST" class="column-button">
+                        <input type="hidden" name="column" value="{{$col}}">
+                        <button type="submit">⬇️</button>
+                    </form>
+                {{end}}
+            </div>
+            {{end}}
+
+            <div class="grid">
+                {{$rows := .Rows}}
+                {{$cols := .Cols}}
+                {{range $row := iterate $rows}}
+                    <div class="row">
+                        {{range $col := iterate $cols}}
+                            <div class="cell
+                                {{if eq (index $.Board $row $col) 1}} player1
+                                {{else if eq (index $.Board $row $col) 2}} player2
+                                {{end}}">
+                            </div>
+                        {{end}}
+                    </div>
+                {{end}}
+            </div>
+        </div>
+    </div>
 </body>
-</html>
+</html> 
