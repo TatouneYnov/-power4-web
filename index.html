@@ -8,13 +8,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>Puissance 4</h1>
         
-        <div class="navigation">
+        <div class="button-container">
             <a href="/" class="back-button">⬅ Retour</a>
+            {{template "reset" .}}
         </div>
-
-        {{template "reset" .}}
 
         <div class="status">
             {{if .IsGameOver}}
