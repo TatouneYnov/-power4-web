@@ -14,7 +14,7 @@
             {{template "reset" .}}
         </div>
 
-        <div class="status">
+        <div class="status" id="status">
             {{if .IsGameOver}}
                 {{if .Winner}}
                     {{if eq .Winner 1}}
@@ -36,18 +36,17 @@
 
         <div class="board">
             {{if not .IsGameOver}}
-            <div class="controls">
+            <div class="controls" id="controls">
                 {{$cols := .Cols}}
                 {{range $col := iterate $cols}}
-                    <form action="/move" method="POST" class="column-button">
-                        <input type="hidden" name="column" value="{{$col}}">
-                        <button type="submit">⬇️</button>
-                    </form>
+                    <div class="column-button">
+                        <button onclick="playColumn({{$col}})">⬇️</button>
+                    </div>
                 {{end}}
             </div>
             {{end}}
 
-            <div class="grid">
+            <div class="grid" id="grid">
                 {{$rows := .Rows}}
                 {{$cols := .Cols}}
                 {{range $row := iterate $rows}}
@@ -64,5 +63,34 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function playColumn(column) {
+            fetch('/move', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'column=' + column
+            })
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                document.getElementById('status').innerHTML = doc.getElementById('status').innerHTML;
+                document.getElementById('grid').innerHTML = doc.getElementById('grid').innerHTML;
+                
+                const newControls = doc.getElementById('controls');
+                const currentControls = document.getElementById('controls');
+                if (newControls && currentControls) {
+                    currentControls.innerHTML = newControls.innerHTML;
+                } else if (!newControls && currentControls) {
+                    currentControls.remove();
+                }
+            })
+            .catch(error => console.error('Erreur:', error));
+        }
+    </script>
 </body>
 </html> 
