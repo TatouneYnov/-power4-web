@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puissance 4 - Accueil</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bienvenue sur Puissance 4</h1>
+        
+        <form action="/start-game" method="POST" class="setup-form">
+            <div class="player-inputs">
+                <div class="input-group">
+                    <label for="player1">Joueur 1 (Rouge):</label>
+                    <input type="text" id="player1" name="player1" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="player2">Joueur 2 (Jaune):</label>
+                    <input type="text" id="player2" name="player2" required>
+                </div>
+            </div>
+
+            <div class="difficulty-selection">
+                <h2>Choisissez la difficulté</h2>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="normal" name="difficulty" value="normal" checked>
+                        <label for="normal">Normal (6x7)</label>
+                    </div>
+                    
+                    <div class="radio-option">
+                        <input type="radio" id="difficult" name="difficulty" value="difficult">
+                        <label for="difficult">Difficile (8x9)</label>
+                    </div>
+                    
+                    <div class="radio-option">
+                        <input type="radio" id="expert" name="difficulty" value="expert">
+                        <label for="expert">Expert (10x11)</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="start-button">Commencer la partie</button>
+        </form>
+    </div>
+</body>
+</html>
