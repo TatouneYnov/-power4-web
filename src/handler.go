@@ -7,7 +7,7 @@ import (
 )
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("page/home.html")
+	tmpl, err := template.ParseFiles("page/home.html", "static/style.css")
 	if err != nil {
 		log.Fatal(err)
 	}
