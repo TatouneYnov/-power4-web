@@ -10,7 +10,7 @@ import (
 var game *Game
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("page/home.html", "static/style.css")
+	tmpl, err := template.ParseFiles("page/home.html")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -80,7 +80,12 @@ func resetHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	game = NewGame(6, 7, "Joueur 1", "Joueur 2")
+	// Conserver les paramètres du jeu actuel
+	if game != nil {
+		game = NewGame(game.Rows, game.Cols, game.Player1Name, game.Player2Name)
+	} else {
+		game = NewGame(6, 7, "Joueur 1", "Joueur 2")
+	}
 	http.Redirect(w, r, "/start-game", http.StatusSeeOther)
 }
 

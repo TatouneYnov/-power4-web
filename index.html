@@ -40,7 +40,10 @@
                 {{$cols := .Cols}}
                 {{range $col := iterate $cols}}
                     <div class="column-button">
-                        <button onclick="playColumn({{$col}})">⬇️</button>
+                        <form action="/move" method="POST" style="margin: 0;">
+                            <input type="hidden" name="column" value="{{$col}}">
+                            <button type="submit">⬇️</button>
+                        </form>
                     </div>
                 {{end}}
             </div>
@@ -63,34 +66,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function playColumn(column) {
-            fetch('/move', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'column=' + column
-            })
-            .then(response => response.text())
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                
-                document.getElementById('status').innerHTML = doc.getElementById('status').innerHTML;
-                document.getElementById('grid').innerHTML = doc.getElementById('grid').innerHTML;
-                
-                const newControls = doc.getElementById('controls');
-                const currentControls = document.getElementById('controls');
-                if (newControls && currentControls) {
-                    currentControls.innerHTML = newControls.innerHTML;
-                } else if (!newControls && currentControls) {
-                    currentControls.remove();
-                }
-            })
-            .catch(error => console.error('Erreur:', error));
-        }
-    </script>
 </body>
 </html> 
