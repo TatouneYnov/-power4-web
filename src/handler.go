@@ -35,9 +35,9 @@ func gameHandler(w http.ResponseWriter, r *http.Request) {
 		var rows, cols int
 		switch difficulty {
 		case "difficult":
-			rows, cols = 8, 9
+			rows, cols = 6, 9
 		case "expert":
-			rows, cols = 10, 11
+			rows, cols = 7, 8
 		default:
 			rows, cols = 6, 7
 		}
@@ -80,7 +80,6 @@ func resetHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Conserver les paramètres du jeu actuel
 	if game != nil {
 		game = NewGame(game.Rows, game.Cols, game.Player1Name, game.Player2Name)
 	} else {
