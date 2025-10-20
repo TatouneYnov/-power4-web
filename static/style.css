@@ -15,9 +15,6 @@ html {
 body {
     font-family: 'Courier New', 'Consolas', monospace;
     background: #0a0e27;
-    background-image: 
-        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 255, 0.03) 2px, rgba(0, 255, 255, 0.03) 4px),
-        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 0, 255, 0.03) 2px, rgba(255, 0, 255, 0.03) 4px);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -25,66 +22,25 @@ body {
     padding: 20px;
     position: relative;
     overflow-x: hidden;
-    /* Optimisation du rendu pour des transitions plus fluides */
-    backface-visibility: hidden;
-    perspective: 1000px;
 }
 
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(ellipse at center, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
-    animation: pulse 4s ease-in-out infinite;
-    pointer-events: none;
-    z-index: 0;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
-}
+/* Removed body::before animation - too expensive */
 
 /* Container principal */
 .container {
     background: rgba(10, 14, 39, 0.95);
     border: 2px solid #00ffff;
     border-radius: 15px;
-    box-shadow: 
-        0 0 30px rgba(0, 255, 255, 0.5),
-        0 0 60px rgba(255, 0, 255, 0.3),
-        inset 0 0 30px rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
     padding: clamp(20px, 3vw, 40px);
     max-width: 98vw;
     width: fit-content;
-    animation: fadeIn 0.5s ease-in, borderGlow 2s ease-in-out infinite;
+    animation: fadeIn 0.5s ease-in;
     position: relative;
     z-index: 1;
-    will-change: contents;
-    contain: layout style paint;
 }
 
-.container::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff);
-    border-radius: 15px;
-    z-index: -1;
-    opacity: 0;
-    animation: borderPulse 3s ease-in-out infinite;
-}
-
-@keyframes borderPulse {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 0.3; }
-}
+/* Removed .container::before and borderGlow/borderPulse - expensive animations */
 
 @keyframes fadeIn {
     from {
@@ -97,20 +53,7 @@ body::before {
     }
 }
 
-@keyframes borderGlow {
-    0%, 100% {
-        box-shadow: 
-            0 0 30px rgba(0, 255, 255, 0.5),
-            0 0 60px rgba(255, 0, 255, 0.3),
-            inset 0 0 30px rgba(0, 255, 255, 0.1);
-    }
-    50% {
-        box-shadow: 
-            0 0 40px rgba(0, 255, 255, 0.7),
-            0 0 80px rgba(255, 0, 255, 0.5),
-            inset 0 0 40px rgba(0, 255, 255, 0.15);
-    }
-}
+/* Removed borderGlow - too expensive */
 
 /* Titre principal */
 h1 {
@@ -120,30 +63,10 @@ h1 {
     margin-bottom: 30px;
     text-transform: uppercase;
     letter-spacing: 4px;
-    text-shadow: 
-        0 0 10px #00ffff,
-        0 0 20px #00ffff,
-        0 0 30px #00ffff,
-        0 0 40px #ff00ff;
-    animation: textGlow 2s ease-in-out infinite;
+    text-shadow: 0 0 20px #00ffff;
 }
 
-@keyframes textGlow {
-    0%, 100% {
-        text-shadow: 
-            0 0 10px #00ffff,
-            0 0 20px #00ffff,
-            0 0 30px #00ffff,
-            0 0 40px #ff00ff;
-    }
-    50% {
-        text-shadow: 
-            0 0 20px #00ffff,
-            0 0 30px #00ffff,
-            0 0 40px #00ffff,
-            0 0 60px #ff00ff;
-    }
-}
+/* Removed textGlow animation - too expensive */
 
 /* Formulaire */
 .setup-form {
@@ -151,6 +74,14 @@ h1 {
     flex-direction: column;
     gap: 30px;
     min-width: 500px;
+}
+
+/* Wrapper to center the start button inside the form */
+.start-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 /* Inputs des joueurs */
@@ -190,24 +121,18 @@ h1 {
 
 .input-group input[type="text"]:focus {
     border-color: #ff00ff;
-    box-shadow: 
-        0 0 20px rgba(255, 0, 255, 0.6),
-        inset 0 0 10px rgba(255, 0, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
     background: rgba(0, 0, 0, 0.7);
 }
 
 .input-group:first-child input[type="text"]:focus {
     border-color: #ff0080;
-    box-shadow: 
-        0 0 20px rgba(255, 0, 128, 0.6),
-        inset 0 0 10px rgba(255, 0, 128, 0.2);
+    box-shadow: 0 0 15px rgba(255, 0, 128, 0.5);
 }
 
 .input-group:last-child input[type="text"]:focus {
     border-color: #ffff00;
-    box-shadow: 
-        0 0 20px rgba(255, 255, 0, 0.6),
-        inset 0 0 10px rgba(255, 255, 0, 0.2);
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.5);
 }
 
 /* Section difficulté */
@@ -216,7 +141,6 @@ h1 {
     padding: 25px;
     border-radius: 10px;
     border: 1px solid rgba(0, 255, 255, 0.3);
-    box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.1);
 }
 
 .difficulty-selection h2 {
@@ -272,9 +196,7 @@ h1 {
 .radio-option:has(input:checked) {
     border-color: #ff00ff;
     background: rgba(255, 0, 255, 0.15);
-    box-shadow: 
-        0 0 20px rgba(255, 0, 255, 0.5),
-        inset 0 0 15px rgba(255, 0, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
 }
 
 /* Bouton de démarrage */
@@ -290,44 +212,22 @@ h1 {
     text-transform: uppercase;
     letter-spacing: 3px;
     transition: all 0.3s ease;
-    box-shadow: 
-        0 0 20px rgba(0, 255, 255, 0.5),
-        0 0 40px rgba(255, 0, 255, 0.3);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
     position: relative;
     overflow: hidden;
 }
 
-.start-button::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-}
+/* Removed .start-button::before - expensive pseudo-element animation */
 
 .start-button:hover {
     transform: translateY(-3px);
-    box-shadow: 
-        0 0 30px rgba(0, 255, 255, 0.8),
-        0 0 60px rgba(255, 0, 255, 0.6);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
     border-color: #ff00ff;
-}
-
-.start-button:hover::before {
-    width: 300px;
-    height: 300px;
 }
 
 .start-button:active {
     transform: translateY(0);
-    box-shadow: 
-        0 0 15px rgba(0, 255, 255, 0.5),
-        0 0 30px rgba(255, 0, 255, 0.3);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
 }
 
 /* Responsive */
@@ -418,27 +318,21 @@ h1 {
     text-transform: uppercase;
     letter-spacing: 2px;
     transition: all 0.3s ease;
-    box-shadow: 
-        0 0 15px rgba(0, 255, 255, 0.5),
-        inset 0 0 10px rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
     flex: 1;
     text-align: center;
 }
 
 .back-button:hover {
     transform: translateX(-5px);
-    box-shadow: 
-        0 0 25px rgba(0, 255, 255, 0.8),
-        inset 0 0 15px rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
     border-color: #ff00ff;
     background: linear-gradient(45deg, #00ffff, #ff00ff);
 }
 
 .back-button:active {
     transform: translateX(-3px);
-    box-shadow: 
-        0 0 15px rgba(0, 255, 255, 0.5),
-        inset 0 0 10px rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
 }
 
 /* Status du jeu */
@@ -449,9 +343,7 @@ h1 {
     background: rgba(0, 255, 255, 0.05);
     border: 2px solid rgba(0, 255, 255, 0.4);
     border-radius: 10px;
-    box-shadow: 
-        0 0 20px rgba(0, 255, 255, 0.3),
-        inset 0 0 20px rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
     transition: all 0.3s ease;
 }
 
@@ -469,31 +361,15 @@ h1 {
 .winner {
     color: #00ff00;
     font-size: 1.5rem !important;
-    text-shadow: 
-        0 0 15px #00ff00,
-        0 0 30px #00ff00;
-    animation: winnerPulse 1s ease-in-out infinite;
+    text-shadow: 0 0 20px #00ff00;
 }
 
-@keyframes winnerPulse {
-    0%, 100% {
-        text-shadow: 
-            0 0 15px #00ff00,
-            0 0 30px #00ff00;
-    }
-    50% {
-        text-shadow: 
-            0 0 25px #00ff00,
-            0 0 50px #00ff00;
-    }
-}
+/* Removed winnerPulse animation - too expensive */
 
 .draw {
     color: #ffff00;
     font-size: 1.5rem !important;
-    text-shadow: 
-        0 0 15px #ffff00,
-        0 0 30px #ffff00;
+    text-shadow: 0 0 20px #ffff00;
 }
 
 /* Plateau de jeu */
@@ -502,27 +378,13 @@ h1 {
     border: 3px solid #00ffff;
     padding: clamp(10px, 2vw, 20px);
     border-radius: 10px;
-    box-shadow: 
-        0 0 30px rgba(0, 255, 255, 0.5),
-        inset 0 0 30px rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
     position: relative;
     max-width: 95vw;
     overflow: hidden;
 }
 
-.board::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(0, 255, 255, 0.05) 10px, rgba(0, 255, 255, 0.05) 11px),
-        repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(0, 255, 255, 0.05) 10px, rgba(0, 255, 255, 0.05) 11px);
-    pointer-events: none;
-    border-radius: 10px;
-}
+/* Removed .board::before - expensive repeating gradients */
 
 /* Contrôles de colonne */
 .controls {
@@ -555,23 +417,19 @@ h1 {
     aspect-ratio: 1;
     border-radius: 5px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 
-        0 0 15px rgba(0, 255, 255, 0.5),
-        0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
     text-shadow: 0 0 5px #fff;
 }
 
 .column-button button:hover {
-    transform: translateY(-5px) scale(1.1);
-    box-shadow: 
-        0 0 25px rgba(255, 0, 255, 0.8),
-        0 8px 20px rgba(0, 0, 0, 0.7);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.6);
     border-color: #ff00ff;
 }
 
 .column-button button:active {
-    transform: translateY(-2px) scale(1.05);
+    transform: translateY(-1px) scale(1.02);
 }
 
 /* Grille */
@@ -598,67 +456,39 @@ h1 {
     background: rgba(0, 0, 0, 0.6);
     border: 2px solid rgba(0, 255, 255, 0.3);
     border-radius: 50%;
-    box-shadow: 
-        inset 0 0 10px rgba(0, 255, 255, 0.2),
-        0 0 10px rgba(0, 0, 0, 0.5);
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.2);
+    transition: all 0.3s ease;
     position: relative;
-    transform: scale(1);
 }
 
-.cell::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: all 0.3s ease;
-}
+/* Removed .cell::before - unused pseudo-element */
 
 .cell.player1 {
     background: radial-gradient(circle at 30% 30%, #ff0080, #ff0000);
     border-color: #ff0080;
-    box-shadow: 
-        0 0 20px rgba(255, 0, 128, 0.8),
-        inset 0 0 10px rgba(255, 0, 0, 0.5),
-        0 0 5px rgba(255, 0, 128, 1);
-    animation: cellGlow 2s ease-in-out infinite, cellDrop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 0, 128, 0.6);
+    animation: cellDrop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .cell.player2 {
     background: radial-gradient(circle at 30% 30%, #ffff00, #ffaa00);
     border-color: #ffff00;
-    box-shadow: 
-        0 0 20px rgba(255, 255, 0, 0.8),
-        inset 0 0 10px rgba(255, 170, 0, 0.5),
-        0 0 5px rgba(255, 255, 0, 1);
-    animation: cellGlow 2s ease-in-out infinite 0.5s, cellDrop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.6);
+    animation: cellDrop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes cellGlow {
-    0%, 100% {
-        filter: brightness(1);
-    }
-    50% {
-        filter: brightness(1.3);
-    }
-}
+/* Removed cellGlow animation - too expensive on many cells */
 
 @keyframes cellDrop {
     0% {
-        transform: translateY(-20px) scale(0.8);
+        transform: translateY(-15px) scale(0.9);
         opacity: 0;
     }
     60% {
-        transform: translateY(5px) scale(1.1);
+        transform: translateY(3px) scale(1.02);
     }
     100% {
-        transform: translateY(0) scale(1.05);
+        transform: translateY(0) scale(1);
         opacity: 1;
     }
 }
@@ -680,27 +510,21 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 
-        0 0 15px rgba(255, 0, 255, 0.5),
-        inset 0 0 10px rgba(255, 0, 255, 0.1);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
     flex: 1;
     text-align: center;
 }
 
 .reset-button:hover {
     transform: translateY(-3px);
-    box-shadow: 
-        0 0 30px rgba(255, 0, 255, 0.8),
-        inset 0 0 15px rgba(255, 0, 255, 0.2);
+    box-shadow: 0 0 25px rgba(255, 0, 255, 0.6);
     border-color: #00ffff;
     background: linear-gradient(45deg, #ff00ff, #00ffff);
 }
 
 .reset-button:active {
     transform: translateY(-1px);
-    box-shadow: 
-        0 0 15px rgba(255, 0, 255, 0.5),
-        inset 0 0 10px rgba(255, 0, 255, 0.1);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
 }
 
 /* Responsive pour la grille */
