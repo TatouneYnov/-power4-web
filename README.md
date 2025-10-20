@@ -30,9 +30,6 @@ http://localhost:8080
   - Difficile (6x9)
   - Expert (7x8)
 - Noms personnalisables pour les joueurs
-- Interface cyberpunk avec effets néon
-- Animations fluides et optimisées
-- Responsive design
 
 ## 🎮 Comment jouer
 
